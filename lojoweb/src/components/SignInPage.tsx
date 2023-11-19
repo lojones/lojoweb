@@ -1,18 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { apiHost, signInUrl } from "../utils/envvars";
 
 const SignInPage: React.FC = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errorMessage, setErrorMessage] = React.useState('');
     const navigate = useNavigate();
+    const apiUrlSignIn = signInUrl()
 
     const handleSignIn = async (event: React.FormEvent) => {
         event.preventDefault();
         console.log(`Username: ${username}`);
         console.log(`Password: ${password}`);
 
-        const response = await fetch('http://localhost:5000/api/auth/signin', {
+        const response = await fetch(apiUrlSignIn, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,14 +29,12 @@ const SignInPage: React.FC = () => {
             console.log('Sign in successful');
             setErrorMessage('Sign in successfully');
             const token = data.token;
-            sessionStorage.setItem('token', token);
+            localStorage.setItem('token', token);
+            localStorage.setItem('username', username);
             navigate('/');
         } else {
             setErrorMessage(data.message || 'Sign in failed');
         }
-
-
-
     }
 
     return (
