@@ -38,9 +38,7 @@ const Home: React.FC = () => {
     }, [navigate]);
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible 
-                    collapsed={collapsed} 
-                    onCollapse={(collapseValue) => setCollapsed(collapseValue)}
+            <Sider 
                     style={{background: 'white'}}>
                 <div>
                     <UserDetails />

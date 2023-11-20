@@ -4,6 +4,8 @@ import axios from "axios";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import './UserDetails.css';
+import { Layout } from 'antd';
+const { Header, Content, Footer } = Layout;
 
 const UserDetails: React.FC = () => {
     const [firstName, setFirstName] = React.useState('');
@@ -41,17 +43,7 @@ const UserDetails: React.FC = () => {
     
     return (
         <div className="navbar-user-detail" >
-            <Space direction="vertical" size={16}>
-                haha
-            </Space>
-             <Space direction="vertical" size={16}>
-                <Space wrap size={16}>
-                    <Avatar size={64} icon={<UserOutlined />} />
-                        <div>
-                            {firstName}
-                        </div>
-                </Space>
-            </Space> 
+            <div>{firstName}</div>
         </div>
     );
 };
