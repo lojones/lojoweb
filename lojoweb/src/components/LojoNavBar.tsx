@@ -4,7 +4,12 @@ import { Menu } from 'antd';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-const LojoNavBar: React.FC = () => {
+interface LojoNavBarProps {
+    currentChat: string;
+    onChatChange: (e: string) => void;
+}
+
+const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChat,onChatChange}) => {
 
     function getItem(
         label: React.ReactNode,

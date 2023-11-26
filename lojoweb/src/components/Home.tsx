@@ -20,6 +20,12 @@ const Home: React.FC = () => {
     const healthurl = healthUrl();
     console.log(healthurl);
 
+    const [currentChat, setCurrentChat] = React.useState('');
+
+    const currentChatChangeHandler = (e: string) => {
+        setCurrentChat(e);
+    }
+
     useEffect(() => {
         if (!token) {
             navigate('/signin');
@@ -45,7 +51,7 @@ const Home: React.FC = () => {
                     style={{background: 'white'}}>
                 <div>
                     <UserDetails />
-                    <LojoNavBar />
+                    <LojoNavBar currentChat={currentChat} onChatChange={currentChatChangeHandler}/>
                 </div>
             </Sider>
             <Layout>
@@ -57,7 +63,7 @@ const Home: React.FC = () => {
                 </Content>
                 <Footer>
                     <div>
-                        <LojoChatInputBox />
+                        <LojoChatInputBox currentChat={currentChat} onChatChange={currentChatChangeHandler}/>
                     </div>
                 </Footer>
             </Layout>
