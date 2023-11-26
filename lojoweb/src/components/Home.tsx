@@ -5,6 +5,9 @@ import { Layout, Menu } from 'antd';
 import type { MenuProps } from "antd";
 import { healthUrl } from "../utils/envvars";
 import UserDetails from "./UserDetails";
+import LojoNavBar from "./LojoNavBar";
+import LojoChatInputBox from "./LojoChatInputBox";
+
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -42,6 +45,7 @@ const Home: React.FC = () => {
                     style={{background: 'white'}}>
                 <div>
                     <UserDetails />
+                    <LojoNavBar />
                 </div>
             </Sider>
             <Layout>
@@ -53,7 +57,7 @@ const Home: React.FC = () => {
                 </Content>
                 <Footer>
                     <div>
-                        <Link to="/signin">Sign In</Link>
+                        <LojoChatInputBox />
                     </div>
                 </Footer>
             </Layout>
