@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import SignInPage from './components/SignInPage';
 import Home from './components/Home';
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
