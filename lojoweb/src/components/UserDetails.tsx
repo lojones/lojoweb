@@ -7,9 +7,14 @@ import './UserDetails.css';
 import { Layout } from 'antd';
 const { Header, Content, Footer } = Layout;
 
-const UserDetails: React.FC = () => {
-    const [firstName, setFirstName] = React.useState('');
-    const [username, setUsername] = React.useState('');
+interface UserDetailsProps {
+    firstName: string;
+    username: string;
+    onUserDetailsChange: (firstName: string,username:string) => void;
+}
+
+const UserDetails: React.FC<UserDetailsProps> = ({firstName,username,onUserDetailsChange}) => {
+
     const [errorMessage, setErrorMessage] = React.useState('');
 
     const getUserDetails = async () => {
@@ -26,9 +31,7 @@ const UserDetails: React.FC = () => {
         })
         .then((response) => {
             console.log(response.data);
-            setUsername(response.data.username);
-            setFirstName(response.data.firstname);
-
+            onUserDetailsChange(response.data.firstname,response.data.username);
         })
         .catch((error) => {
             console.log(error);

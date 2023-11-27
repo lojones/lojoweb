@@ -7,6 +7,7 @@ import { healthUrl } from "../utils/envvars";
 import UserDetails from "./UserDetails";
 import LojoNavBar from "./LojoNavBar";
 import LojoChatInputBox from "./LojoChatInputBox";
+import Chats from "./Chats";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -21,6 +22,13 @@ const Home: React.FC = () => {
     console.log(healthurl);
 
     const [currentChat, setCurrentChat] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [username, setUsername] = React.useState('');
+
+    const setUserHandler = (firstName: string, username: string) => {
+        setFirstName(firstName);
+        setUsername(username);
+    }
 
     const currentChatChangeHandler = (e: string) => {
         setCurrentChat(e);
@@ -50,7 +58,7 @@ const Home: React.FC = () => {
             <Sider 
                     style={{background: 'white'}}>
                 <div>
-                    <UserDetails />
+                    <UserDetails firstName={firstName} username={username} onUserDetailsChange={setUserHandler} />
                     <LojoNavBar currentChat={currentChat} onChatChange={currentChatChangeHandler}/>
                 </div>
             </Sider>
@@ -59,11 +67,11 @@ const Home: React.FC = () => {
                     <div>This is the header</div>
                 </Header>
                 <Content>
-                    <div>This is the content</div>
+                    <Chats currentChat={currentChat} firstName={firstName} username={username}/>
                 </Content>
                 <Footer>
                     <div>
-                        <LojoChatInputBox currentChat={currentChat} onChatChange={currentChatChangeHandler}/>
+                        <LojoChatInputBox currentChat={currentChat} firstName={firstName} username={username} onChatChange={currentChatChangeHandler}/>
                     </div>
                 </Footer>
             </Layout>

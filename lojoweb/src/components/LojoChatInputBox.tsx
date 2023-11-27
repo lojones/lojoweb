@@ -2,15 +2,18 @@ import React, { useEffect } from "react";
 import { Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Col, Row } from 'antd';
-import { Interface } from "readline";
 import { v4 as uuidv4 } from 'uuid';
+import { LojoChat, LojoChatRemark } from "../models/LojoChat";
+
 
 interface LojoChatInputBoxProps {
     currentChat: string;
+    firstName: string;
+    username: string;
     onChatChange: (e: string) => void;
 }
 
-const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChat,onChatChange}) => {
+const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChat,firstName, username, onChatChange}) => {
 
     // onClick function for the lojo-newchat button
     const onClickNewChat = () => {
@@ -18,6 +21,12 @@ const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChat,onChatCha
         const uuid = uuidv4();
         const newChatId = `lojo-chat-${uuid}`;
         console.log('New Chat',newChatId);
+        const newChat: LojoChat = {
+            chatId: newChatId,
+            userId: username,
+            firstName: firstName,
+            remarks: []
+        }
         onChatChange(newChatId);
     }
 

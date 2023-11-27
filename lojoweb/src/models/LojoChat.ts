@@ -1,6 +1,14 @@
 export interface LojoChat {
     chatId: string;
-    uuid: string;
-    email: string;
-    age?: number; // Optional property
+    userId: string;
+    firstName: string;
+    remarks?: LojoChatRemark[];
   }
+
+export interface LojoChatRemark {
+    speaker: string;
+    isAiResponse: boolean;
+    timestamp: Date;
+    remark: string;
+}  
+
