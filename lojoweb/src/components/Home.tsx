@@ -7,13 +7,16 @@ import { healthUrl } from "../utils/envvars";
 import UserDetails from "./UserDetails";
 import LojoNavBar from "./LojoNavBar";
 import LojoChatInputBox from "./LojoChatInputBox";
-import Chats from "./Chats";
+import Chats from "./Chat";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const Home: React.FC = () => {
+
+    console.log('Home: enter component');
+    
     const [collapsed, setCollapsed] = React.useState(false);
     const [status, setStatus] = React.useState('');
     const navigate = useNavigate();
@@ -21,7 +24,8 @@ const Home: React.FC = () => {
     const healthurl = healthUrl();
     console.log(healthurl);
 
-    const [currentChat, setCurrentChat] = React.useState('');
+    const [latestRemark, setLatestRemark] = React.useState('');
+    const [currentChatId, setCurrentChatId] = React.useState('lojo-chat');
     const [firstName, setFirstName] = React.useState('');
     const [username, setUsername] = React.useState('');
 
@@ -30,8 +34,14 @@ const Home: React.FC = () => {
         setUsername(username);
     }
 
-    const currentChatChangeHandler = (e: string) => {
-        setCurrentChat(e);
+    const latestRemarkChangeHandler = (e: string) => {
+        setLatestRemark(e);
+        console.log('Home: latestRemarkChangeHandler - set latest remark: ', e);
+    }
+
+    const currentChatIdChangeHandler = (e: string) => {
+        setCurrentChatId(e);
+        console.log('Home: currentChatIdChangeHandler - set current chatid: ', e);
     }
 
     useEffect(() => {
@@ -59,19 +69,30 @@ const Home: React.FC = () => {
                     style={{background: 'white'}}>
                 <div>
                     <UserDetails firstName={firstName} username={username} onUserDetailsChange={setUserHandler} />
-                    <LojoNavBar currentChat={currentChat} onChatChange={currentChatChangeHandler}/>
+                    <LojoNavBar currentChatId={currentChatId} onChatChange={currentChatIdChangeHandler}/>
                 </div>
             </Sider>
             <Layout>
                 <Header style={{ padding: 0, background: 'lightgray' }}>
-                    <div>This is the header</div>
+                    <div></div>
                 </Header>
                 <Content>
-                    <Chats currentChat={currentChat} firstName={firstName} username={username}/>
+                    <Chats  
+                        firstName={firstName} 
+                        username={username} 
+                        currentChatId={currentChatId}
+                        latestRemark={latestRemark} 
+                    />
                 </Content>
                 <Footer>
                     <div>
-                        <LojoChatInputBox currentChat={currentChat} firstName={firstName} username={username} onChatChange={currentChatChangeHandler}/>
+                        <LojoChatInputBox 
+                            firstName={firstName} 
+                            username={username} 
+                            onChatChange={currentChatIdChangeHandler} 
+                            onNewRemarkChange={latestRemarkChangeHandler} 
+                            currentChatId={currentChatId} 
+                        />
                     </div>
                 </Footer>
             </Layout>

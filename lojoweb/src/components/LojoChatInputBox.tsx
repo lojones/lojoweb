@@ -2,48 +2,62 @@ import React, { useEffect } from "react";
 import { Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Col, Row } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-import { LojoChat, LojoChatRemark } from "../models/LojoChat";
-
+import { LojoChat } from "../models/LojoChat";
+import { getNewChatId } from "../utils/utils";
 
 interface LojoChatInputBoxProps {
-    currentChat: string;
+    currentChatId: string;
     firstName: string;
     username: string;
     onChatChange: (e: string) => void;
+    onNewRemarkChange: (e: string) => void;
 }
 
-const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChat,firstName, username, onChatChange}) => {
+const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChatId,firstName, username, onChatChange, onNewRemarkChange}) => {
+
+    const [remark, setRemark] = React.useState('');
 
     // onClick function for the lojo-newchat button
     const onClickNewChat = () => {
-        
-        const uuid = uuidv4();
-        const newChatId = `lojo-chat-${uuid}`;
-        console.log('New Chat',newChatId);
-        const newChat: LojoChat = {
-            chatId: newChatId,
-            userId: username,
-            firstName: firstName,
-            remarks: []
-        }
-        onChatChange(newChatId);
+        onChatChange(getNewChatId());
     }
 
-    useEffect(() => {
-        console.log('useEffect', currentChat);
-    }, []);
-    
+    const onSendRemarkClick = () => {
+        console.log('LojoChatInputBox: onSendRemarkClick - send remark: ', remark);
+        const sendRemark = remark;
+        onNewRemarkChange(sendRemark);
+        setRemark('');
+    }
+
     return (
         <div>
         {
-            currentChat != ''
+            (currentChatId.startsWith('lojo-chat-'))
             ? <Row justify="space-around" align="middle">
-                <Col flex={9}>
-                    <Input.TextArea autoSize={{ minRows:2,maxRows:5 }} placeholder="Question" />
+                <Col style={{ width: '90%' }}>
+                    <Input.TextArea 
+                        autoSize={{ minRows:2,maxRows:5 }} 
+                        placeholder="Question"
+                        value={remark}
+                        onChange={e => setRemark(e.target.value)}
+                        onKeyDown={e => {
+                            if (!e.shiftKey && e.key === 'Enter') {
+                                e.preventDefault();
+                                onSendRemarkClick();
+                                }
+                            }
+                        }
+                    />
                 </Col>
-                <Col flex={1}>
-                    <Button type="primary" shape="circle" icon={<SendOutlined />} />
+                <Col style={{ width: '10%', paddingLeft: '5px' }}>
+                    <Button 
+                        id="newChatBtn" 
+                        type="primary" 
+                        shape="circle" 
+                        icon={<SendOutlined />} 
+                        onClick={()=> onSendRemarkClick()}
+                        
+                    />
                 </Col>
             </Row>
             : <Row justify="space-around" align="middle">

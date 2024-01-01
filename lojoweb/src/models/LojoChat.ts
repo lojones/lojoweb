@@ -1,8 +1,9 @@
 export interface LojoChat {
     chatId: string;
     userId: string;
+    summary: string;
     firstName: string;
-    remarks?: LojoChatRemark[];
+    remarks: LojoChatRemark[];
   }
 
 export interface LojoChatRemark {
@@ -12,3 +13,7 @@ export interface LojoChatRemark {
     remark: string;
 }  
 
+export interface LojoChatMetadata {
+    chatId: string;
+    summary: string;
+}

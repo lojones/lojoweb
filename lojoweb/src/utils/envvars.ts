@@ -13,3 +13,7 @@ export function healthUrl():string {
 export function UserDetailsUrl():string {
     return `${apiHost()}/${process.env.REACT_APP_API_PATH_USER_DETAILS}`;
   }
+
+export function chatUrl():string {
+    return `${apiHost()}/${process.env.REACT_APP_API_PATH_CHAT}`;
+  }
