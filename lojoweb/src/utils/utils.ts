@@ -17,10 +17,12 @@ export function getChatHistoryList() : LojoChatMetadata[] {
         
         if (item) {
           const chat: LojoChat = JSON.parse(item);
-          chatMetadataList.push({ chatId: chat.chatId, summary: chat.summary });
+          chatMetadataList.push({ chatId: chat.chatId, summary: chat.summary, timestamp: new Date(chat.timestamp) });
         }
       }
     }
+    chatMetadataList.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
     return chatMetadataList;
   }
   
@@ -31,7 +33,7 @@ export function getChat(chatId: string) : LojoChat {
       throw new Error('Invalid chatId');
     }
     if (!localStorage.getItem(chatId)) {
-      return { chatId: chatId, userId: "", summary: "New chat", firstName: "", remarks: [] };
+      return { chatId: chatId, userId: "", summary: "New chat", firstName: "", timestamp: new Date(), remarks: [] };
     }
     const chatstring : string|null = localStorage.getItem(chatId);
     const chat : LojoChat = JSON.parse(chatstring || "[]") as LojoChat;

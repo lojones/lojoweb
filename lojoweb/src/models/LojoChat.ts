@@ -4,6 +4,7 @@ export interface LojoChat {
     summary: string;
     firstName: string;
     remarks: LojoChatRemark[];
+    timestamp: Date;
   }
 
 export interface LojoChatRemark {
@@ -16,4 +17,5 @@ export interface LojoChatRemark {
 export interface LojoChatMetadata {
     chatId: string;
     summary: string;
+    timestamp: Date;
 }

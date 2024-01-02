@@ -16,7 +16,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 const Home: React.FC = () => {
 
     console.log('Home: enter component');
-    
+
     const [collapsed, setCollapsed] = React.useState(false);
     const [status, setStatus] = React.useState('');
     const navigate = useNavigate();
@@ -69,7 +69,10 @@ const Home: React.FC = () => {
                     style={{background: 'white'}}>
                 <div>
                     <UserDetails firstName={firstName} username={username} onUserDetailsChange={setUserHandler} />
-                    <LojoNavBar currentChatId={currentChatId} onChatChange={currentChatIdChangeHandler}/>
+                    <LojoNavBar 
+                        currentChatId={currentChatId} 
+                        latestRemark={latestRemark}
+                        onChatChange={currentChatIdChangeHandler}/>
                 </div>
             </Sider>
             <Layout>

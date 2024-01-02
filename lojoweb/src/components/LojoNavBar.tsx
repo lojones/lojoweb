@@ -9,10 +9,11 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 interface LojoNavBarProps {
     currentChatId: string;
+    latestRemark: string;
     onChatChange: (e: string) => void;
 }
 
-const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,onChatChange}) => {
+const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onChatChange}) => {
 
     console.log('LojoNavBar: enter component');
 
@@ -54,7 +55,7 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,onChatChange}) => 
         getItem('New Chat', 'lojo-chat'),
         getItem('Chats', 'chats', null, existingChatMenuItems)
     ]
-
+    const [navbarChatsList, setNavbarChatsList] = React.useState(chatsList);
     const [selectedChat, setSelectedChat] = React.useState(currentChatId);
 
     useEffect(() => {
@@ -63,7 +64,6 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,onChatChange}) => 
             return;
         }
         console.log('LojoNavBar - useEffect - another chat selected: ', currentChatId);
-        // exit the function if the currentChatId is empty
         if (currentChatId === '') {
             console.log('LojoNavBar - empty chat id used so dont do anything');
             return;
@@ -73,9 +73,16 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,onChatChange}) => 
             console.log('LojoNavBar - New chat does not exist already');
             const newChat: LojoChatMetadata = {
                 chatId: currentChatId,
-                summary: "New chat"
+                summary: "New chat",
+                timestamp: new Date()
             }
-            setExistingChatMenuItems([...existingChatMenuItems, getItem(newChat.summary, newChat.chatId)]);
+            const newChatMenuItems = [getItem(newChat.summary, newChat.chatId), ...existingChatMenuItems];
+            setExistingChatMenuItems(newChatMenuItems);
+            const newChatsList: MenuProps['items'] = [
+                getItem('New Chat', 'lojo-chat'),
+                getItem('Chats', 'chats', null, newChatMenuItems)
+            ]
+            setNavbarChatsList(newChatsList);
             setSelectedChat(newChat.chatId);
             console.log('LojoNavBar - Selected chat menu item: ', newChat);
         } else {
@@ -83,12 +90,37 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,onChatChange}) => 
         }
         
     }, [currentChatId]);
-    
+
+    useEffect(() => {
+        // get the currently selected key from the Menu component
+        console.log('LojoNavBar - useEffect - latestRemark: ', latestRemark);
+        if (existingChatMenuItems[0] && 
+            existingChatMenuItems[0].key && 
+            'label' in existingChatMenuItems[0] &&
+            existingChatMenuItems[0].label === 'New chat') {
+
+            const newChatMenuItems = [...existingChatMenuItems];
+            if (newChatMenuItems[0] && newChatMenuItems[0].key) {
+
+                const latestRemarkChatId: string = String(newChatMenuItems[0].key);
+                newChatMenuItems[0] = getItem(latestRemark, latestRemarkChatId);
+                setExistingChatMenuItems(newChatMenuItems);
+                const newChatsList: MenuProps['items'] = [
+                    getItem('New Chat', 'lojo-chat'),
+                    getItem('Chats', 'chats', null, newChatMenuItems)
+                ]
+                setNavbarChatsList(newChatsList);
+                setSelectedChat(latestRemarkChatId);
+            }
+
+        }
+    }, [latestRemark]);
+
     return (
         <Menu
             onClick={onClick}
             mode="inline"
-            items={chatsList}
+            items={navbarChatsList}
             defaultOpenKeys={['chats']}
             selectedKeys={[selectedChat]}
         />
