@@ -17,3 +17,7 @@ export function UserDetailsUrl():string {
 export function chatUrl():string {
     return `${apiHost()}/${process.env.REACT_APP_API_PATH_CHAT}`;
   }
+
+export function sendRemarkUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_CHAT_REMARK}`;
+}

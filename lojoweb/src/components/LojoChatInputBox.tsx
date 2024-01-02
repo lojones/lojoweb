@@ -61,8 +61,8 @@ const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChatId,firstNa
                 </Col>
             </Row>
             : <Row justify="space-around" align="middle">
-                <Col flex={9}>
-                    <Button id="lojo-newchat" type="primary" onClick={onClickNewChat}>Start New Chat</Button>
+                <Col flex={9} style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button id="lojo-newchat" type="primary" block onClick={onClickNewChat}>Start New Chat</Button>
                 </Col>
             </Row>
         }

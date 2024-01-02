@@ -1,5 +1,6 @@
 import { LojoChat, LojoChatRemark, LojoChatMetadata } from "../models/LojoChat";
 import { v4 as uuidv4 } from 'uuid';
+import { sendRemarkUrl } from "../utils/envvars";
 
 export function formatName(name: string) {
     return name.trim().toUpperCase();
@@ -51,3 +52,33 @@ export function getNewChatId() : string {
     const newChatId = `lojo-chat-${uuid}`;
     return newChatId;
   }
+
+export function isValidToken(){
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    return true;
+}
+
+export async function sendRemark(chat: LojoChat) {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    return null;
+  } else {
+    const response = await fetch(sendRemarkUrl(), {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(chat)
+    });
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data)
+      return data;
+    }
+  }
+}

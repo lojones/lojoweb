@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Card, Space, Typography } from 'antd';
-import { getChat, saveChat } from "../utils/utils";
+import { getChat, saveChat, isValidToken, sendRemark } from "../utils/utils";
 import { LojoChat, LojoChatRemark, LojoChatMetadata } from "../models/LojoChat";
 import moment from 'moment'
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -16,6 +17,7 @@ interface ChatProps {
 const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRemark}) => {
 
     console.log('Chats: enter component');
+    const navigate = useNavigate();
 
     const currentChat : LojoChat = getChat(currentChatId);
     const [myChat, setMyChat] = React.useState(currentChat);
@@ -60,13 +62,42 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         setMyChat(newChat);
         saveChat(newChat);
         console.log("Chats: appended this remark to this chat>",latestRemark)
-
+        getAiResponse(newChat);
+        
     }, [latestRemark]);
+
+    const getAiResponse = (myChat: LojoChat) => {
+        if (!isValidToken()) {
+            navigate('/signin');
+        }
+        else {
+            sendRemark(myChat)
+            .then((response) => {
+                
+                const responsemessage = response.message;
+                console.log(responsemessage);
+                const newRemarks = myChat.remarks ? [...myChat.remarks] : [];
+                newRemarks.push({remark: responsemessage, speaker: "AI", timestamp: new Date(), isAiResponse: true});
+                const newChatWithAiResponse = {
+                    ...myChat,
+                    remarks: newRemarks,
+                    summary: myChat.summary,
+                    };
+                setMyChat(newChatWithAiResponse);
+                saveChat(newChatWithAiResponse);
+                console.log("Chats: appended this remark to this chat>",responsemessage)
+            })
+            .catch((error) => {
+                console.log(error);
+                navigate('/signin');
+            });
+        }
+    }
     
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '90%' }}>
-                <Space direction="vertical" size="middle" style={{ width: '90%' }}>
+                <Space direction="vertical" size="middle" style={{ width: '70%' }}>
                     {myChat.remarks.map((remark, index) => (
                     <Card key={index} title={remark.speaker} size="small">
                         <p>{remark.remark}</p>
