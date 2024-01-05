@@ -5,8 +5,10 @@ import { Layout, Menu } from 'antd';
 import type { MenuProps } from "antd";
 import { healthUrl } from "../utils/envvars";
 import UserDetails from "./UserDetails";
-import LojoNavBar from "./LojoNavBar";
+import LojoSideBar from "./LojoSideBar";
+import LojoTopBar from "./LojoTopBar";
 import LojoChatInputBox from "./LojoChatInputBox";
+import LojoChatListMenu from "./LojoChatListMenu";
 import Chats from "./Chat";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -64,42 +66,45 @@ const Home: React.FC = () => {
         }
     }, [navigate]);
     return (
-        <Layout style={{ minHeight: '100vh' }}>
-            <Sider 
-                    style={{background: 'white'}}>
-                <div>
-                    <UserDetails firstName={firstName} username={username} onUserDetailsChange={setUserHandler} />
-                    <LojoNavBar 
+        <div>
+            <LojoTopBar>
+                <LojoChatListMenu 
+                    currentChatId={currentChatId} 
+                    latestRemark={latestRemark}
+                    onChatChange={currentChatIdChangeHandler}/>
+            </LojoTopBar>
+            <Layout style={{ minHeight: '100vh' }} >
+                <LojoSideBar>
+                    <LojoChatListMenu 
                         currentChatId={currentChatId} 
                         latestRemark={latestRemark}
                         onChatChange={currentChatIdChangeHandler}/>
-                </div>
-            </Sider>
-            <Layout>
-                <Header style={{ padding: 0, background: 'lightgray' }}>
-                    <div></div>
-                </Header>
-                <Content>
-                    <Chats  
-                        firstName={firstName} 
-                        username={username} 
-                        currentChatId={currentChatId}
-                        latestRemark={latestRemark} 
-                    />
-                </Content>
-                <Footer>
-                    <div>
-                        <LojoChatInputBox 
+                </LojoSideBar>
+                <Layout>
+                    <Content>
+                        <Chats  
                             firstName={firstName} 
                             username={username} 
-                            onChatChange={currentChatIdChangeHandler} 
-                            onNewRemarkChange={latestRemarkChangeHandler} 
-                            currentChatId={currentChatId} 
+                            currentChatId={currentChatId}
+                            latestRemark={latestRemark} 
                         />
-                    </div>
-                </Footer>
+                    </Content>
+                    <Footer>
+                        <div>
+                            <LojoChatInputBox 
+                                firstName={firstName} 
+                                username={username} 
+                                onChatChange={currentChatIdChangeHandler} 
+                                onNewRemarkChange={latestRemarkChangeHandler} 
+                                currentChatId={currentChatId} 
+                            />
+                        </div>
+                    </Footer>
+                </Layout>
             </Layout>
-        </Layout>
+
+        </div>
+        
        
 
     );

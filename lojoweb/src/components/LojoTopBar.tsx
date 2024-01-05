@@ -27,7 +27,7 @@ const LojoTopBar: React.FC<LojoTopBarProps> = ({children}) => {
         onClick={() => setVisible(true)}
       />
       <Drawer
-        title="Topics"
+        title="Chats"
         placement="left"
         onClick={() => setVisible(false)}
         onClose={() => setVisible(false)}
