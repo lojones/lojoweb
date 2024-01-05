@@ -6,7 +6,13 @@ import moment from 'moment'
 import { useNavigate } from "react-router-dom";
 import { text } from "stream/consumers";
 import ReactMarkdown from "react-markdown"
+import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+// import MarkdownCodeBlock from "./MarkdownCodeBlock";
+// @ts-expect-error https://github.com/react-syntax-highlighter/react-syntax-highlighter/issues/407
+import { materialLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
+// @ts-expect-error https://github.com/react-syntax-highlighter/react-syntax-highlighter/issues/407
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 const { Text } = Typography;
 
@@ -138,7 +144,28 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                     {myChat.remarks.map((remark, index) => (
                         <div>
                             <Card key={index} title={remark.speaker} size="small">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{remark.remark}</ReactMarkdown>
+                                <Markdown remarkPlugins={[remarkGfm]}
+                                components={{
+                                            code({ node,  className, children, ...props }) {
+                                            const match = /language-(\w+)/.exec(className || "");
+
+                                            return match ? (
+                                                <SyntaxHighlighter
+                                                style={materialLight}
+                                                PreTag="div"
+                                                language={match[1]}
+                                                children={String(children).replace(/\n$/, "")}
+                                                {...props}
+                                                />
+                                            ) : (
+                                                <code className={className ? className : ""} {...props}>
+                                                {children}
+                                                </code>
+                                            );
+                                            }
+                                        }}>
+                                    {remark.remark}
+                                </Markdown>
                                 <p><Text italic className="smalltext">{moment(remark.timestamp).format("h:mm:ss a")}</Text> </p>
                             </Card>                            
                         </div>
