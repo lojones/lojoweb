@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Card, Space, Typography } from 'antd';
-import { getChat, saveChat, isValidToken, sendRemark } from "../utils/utils";
-import { LojoChat, LojoChatRemark, LojoChatMetadata } from "../models/LojoChat";
+import { getChat, saveChat, isValidToken, submitRemark, getRemarkResponseStream } from "../utils/utils";
+import { LojoChat, LojoChatRemark, LojoChatMetadata, LojoChatRemarkUniqueId } from "../models/LojoChat";
 import moment from 'moment'
 import { useNavigate } from "react-router-dom";
+import { text } from "stream/consumers";
+import ReactMarkdown from "react-markdown"
+import remarkGfm from 'remark-gfm'
 
 const { Text } = Typography;
 
@@ -33,6 +36,10 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         else if (currentChatId.startsWith("lojo-chat-")) {
             console.log('Chats: valid currentChatId change>', currentChatId);
             const newChat : LojoChat = getChat(currentChatId);
+            if (!newChat.userId || newChat.userId === ''){
+                newChat.userId = username;
+                newChat.firstName= firstName;
+            }
             setMyChat(newChat);
             console.log("Chats: got this new chat for this chat id>",currentChatId,newChat);
         }
@@ -63,35 +70,65 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         saveChat(newChat);
         console.log("Chats: appended this remark to this chat>",latestRemark)
         getAiResponse(newChat);
-        
+
     }, [latestRemark]);
 
+
     const getAiResponse = (myChat: LojoChat) => {
+        console.log("Chats: getAiResponse - start");
         if (!isValidToken()) {
             navigate('/signin');
         }
         else {
-            sendRemark(myChat)
-            .then((response) => {
-                
-                const responsemessage = response.message;
-                console.log(responsemessage);
-                const newRemarks = myChat.remarks ? [...myChat.remarks] : [];
-                newRemarks.push({remark: responsemessage, speaker: "AI", timestamp: new Date(), isAiResponse: true});
-                const newChatWithAiResponse = {
-                    ...myChat,
-                    remarks: newRemarks,
-                    summary: myChat.summary,
+            const submitResponse = submitRemark(myChat);
+            submitResponse.then((response) => {
+                if (response == null) {
+                    console.log("error trying to submit the chat to AI");
+                } else {
+                    const responseRemarkUid : LojoChatRemarkUniqueId = response;
+                    const remarkUid = responseRemarkUid.remarkUid;
+                    const responseEventSourceStream = getRemarkResponseStream(remarkUid);
+                    const responseStringArray:string[] = [];
+                    responseEventSourceStream.onmessage = (event) => {
+                        const responseobj = event.data;
+                        console.log("Chats: responseobj is ",responseobj);
+                        const responsejson = JSON.parse(responseobj);
+                        const responsemessage:string = responsejson.chunk;
+
+                        
+                        if (responsemessage.includes("\n")) {
+                            console.log("Chats: getAiResponse - this response contains a newline", responsemessage);
+                        }
+                        // console.log(responsemessage);
+                        if (responsemessage === `done ${remarkUid}`) {
+                            responseEventSourceStream.close();
+                            return;
+                        }
+
+                        const newRemarks = myChat.remarks ? [...myChat.remarks] : [];
+                        responseStringArray.push(responsemessage);
+                        newRemarks.push({remark: responseStringArray.join(""), speaker: "AI", timestamp: new Date(), isAiResponse: true});
+                        const newChatWithAiResponse = {
+                            ...myChat,
+                            remarks: newRemarks,
+                            summary: myChat.summary,
+                        };
+                        setMyChat(newChatWithAiResponse);
+                        saveChat(newChatWithAiResponse);
+                        console.log("Chats: appended this remark to this chat>", responsemessage);
                     };
-                setMyChat(newChatWithAiResponse);
-                saveChat(newChatWithAiResponse);
-                console.log("Chats: appended this remark to this chat>",responsemessage)
-            })
-            .catch((error) => {
-                console.log(error);
-                navigate('/signin');
+                    responseEventSourceStream.onerror = (event) => {
+                        console.log("error trying to get response from AI",event);
+                    };
+                    responseEventSourceStream.onopen = (event) => {
+                        console.log("opened connection to get response from AI", event);
+                    }
+                    console.log("ok");
+
+                }
             });
         }
+        console.log("Chats: getAiResponse - end");
     }
     
     return (
@@ -99,10 +136,12 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '90%' }}>
                 <Space direction="vertical" size="middle" style={{ width: '70%' }}>
                     {myChat.remarks.map((remark, index) => (
-                    <Card key={index} title={remark.speaker} size="small">
-                        <p>{remark.remark}</p>
-                        <p><Text italic className="smalltext">{moment(remark.timestamp).format("h:mm:ss a")}</Text> </p>
-                    </Card>
+                        <div>
+                            <Card key={index} title={remark.speaker} size="small">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{remark.remark}</ReactMarkdown>
+                                <p><Text italic className="smalltext">{moment(remark.timestamp).format("h:mm:ss a")}</Text> </p>
+                            </Card>                            
+                        </div>
                     ))}
                 </Space>
             </div>

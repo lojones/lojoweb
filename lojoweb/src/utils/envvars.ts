@@ -18,6 +18,11 @@ export function chatUrl():string {
     return `${apiHost()}/${process.env.REACT_APP_API_PATH_CHAT}`;
   }
 
-export function sendRemarkUrl():string {
-  return `${apiHost()}/${process.env.REACT_APP_API_PATH_CHAT_REMARK}`;
+export function submitRemarkUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_REMARK_SUBMIT}`;
 }
+
+export function getRemarkResponseStreamUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_REMARK_RESPONSESTREAM}`;
+}
+

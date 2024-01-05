@@ -1,6 +1,6 @@
-import { LojoChat, LojoChatRemark, LojoChatMetadata } from "../models/LojoChat";
+import { LojoChat, LojoChatRemark, LojoChatMetadata, LojoChatRemarkUniqueId } from "../models/LojoChat";
 import { v4 as uuidv4 } from 'uuid';
-import { sendRemarkUrl } from "../utils/envvars";
+import { submitRemarkUrl, getRemarkResponseStreamUrl } from "../utils/envvars";
 
 export function formatName(name: string) {
     return name.trim().toUpperCase();
@@ -61,17 +61,18 @@ export function isValidToken(){
     return true;
 }
 
-export async function sendRemark(chat: LojoChat) {
+export async function submitRemark(chat: LojoChat) : Promise<LojoChatRemarkUniqueId | null> {
   const token = localStorage.getItem('token');
 
   if (!token) {
     return null;
   } else {
-    const response = await fetch(sendRemarkUrl(), {
+
+    const response = await fetch(submitRemarkUrl(), {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(chat)
     });
@@ -79,6 +80,21 @@ export async function sendRemark(chat: LojoChat) {
     if (response.ok) {
       console.log(data)
       return data;
+    } else {
+      return null;
     }
+
+  }
+}
+
+export function getRemarkResponseStream(remarkUid : string) : EventSource {
+  const token = localStorage.getItem('token');
+  const url = `${getRemarkResponseStreamUrl()}/${remarkUid}`;
+  console.log("utils: getRemarkResponseStream: url: ", url);
+
+  if (!token) {
+    throw new Error('Invalid token');
+  } else {
+    return new EventSource(url);
   }
 }
