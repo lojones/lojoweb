@@ -7,15 +7,15 @@ import { getNewChatId } from "../utils/utils";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-interface LojoNavBarProps {
+interface LojoChatListMenuProps {
     currentChatId: string;
     latestRemark: string;
     onChatChange: (e: string) => void;
 }
 
-const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onChatChange}) => {
+const LojoChatListMenu: React.FC<LojoChatListMenuProps> = ({currentChatId,latestRemark,onChatChange}) => {
 
-    console.log('LojoNavBar: enter component');
+    console.log('LojoChatListMenu: enter component');
 
     function getItem(
         label: React.ReactNode,
@@ -41,11 +41,11 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onCha
     const onClick: MenuProps['onClick'] = (e) => {
         const chatId = e.key;
         if (chatId === 'lojo-chat') {
-            console.log('LojoNavBar: click - new chat');
+            console.log('LojoChatListMenu: click - new chat');
             onChatChange(getNewChatId());
             return;
         }
-        console.log('LojoNavBar: click ', e.key);
+        console.log('LojoChatListMenu: click ', e.key);
         onChatChange(chatId);
     };
 
@@ -60,17 +60,17 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onCha
 
     useEffect(() => {
         if (!currentChatId || currentChatId === '' || currentChatId === 'lojo-chat' || !currentChatId.startsWith('lojo-chat-')) {
-            console.log('LojoNavBar - invalid chat id used so dont do anything, currentChatId: ', currentChatId);
+            console.log('LojoChatListMenu - invalid chat id used so dont do anything, currentChatId: ', currentChatId);
             return;
         }
-        console.log('LojoNavBar - useEffect - another chat selected: ', currentChatId);
+        console.log('LojoChatListMenu - useEffect - another chat selected: ', currentChatId);
         if (currentChatId === '') {
-            console.log('LojoNavBar - empty chat id used so dont do anything');
+            console.log('LojoChatListMenu - empty chat id used so dont do anything');
             return;
         }
         const newChatExistsAlready = existingChatMenuItems.find((menuItem) => menuItem !== null && menuItem.key === currentChatId);
         if (newChatExistsAlready === undefined) {
-            console.log('LojoNavBar - New chat does not exist already');
+            console.log('LojoChatListMenu - New chat does not exist already');
             const newChat: LojoChatMetadata = {
                 chatId: currentChatId,
                 summary: "New chat",
@@ -84,7 +84,7 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onCha
             ]
             setNavbarChatsList(newChatsList);
             setSelectedChat(newChat.chatId);
-            console.log('LojoNavBar - Selected chat menu item: ', newChat);
+            console.log('LojoChatListMenu - Selected chat menu item: ', newChat);
         } else {
             setSelectedChat(currentChatId);
         }
@@ -93,7 +93,7 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onCha
 
     useEffect(() => {
         // get the currently selected key from the Menu component
-        console.log('LojoNavBar - useEffect - latestRemark: ', latestRemark);
+        console.log('LojoChatListMenu - useEffect - latestRemark: ', latestRemark);
         if (existingChatMenuItems[0] && 
             existingChatMenuItems[0].key && 
             'label' in existingChatMenuItems[0] &&
@@ -128,4 +128,4 @@ const LojoNavBar: React.FC<LojoNavBarProps> = ({currentChatId,latestRemark,onCha
     );
 };
 
-export default LojoNavBar;
+export default LojoChatListMenu;
