@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { Card, Space, Typography } from 'antd';
 import { getChat, saveChat, isValidToken, submitRemark, getRemarkResponseStream } from "../utils/utils";
-import { LojoChat, LojoChatRemark, LojoChatMetadata, LojoChatRemarkUniqueId } from "../models/LojoChat";
+import { LojoChat, LojoChatRemarkUniqueId } from "../models/LojoChat";
 import moment from 'moment'
 import { useNavigate } from "react-router-dom";
-import { text } from "stream/consumers";
-import ReactMarkdown from "react-markdown"
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 // import MarkdownCodeBlock from "./MarkdownCodeBlock";
@@ -33,9 +31,10 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
 
     console.log("Chats, currentChat", myChat);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         
-        if (currentChatId == "lojo-chat") {
+        if (currentChatId === "lojo-chat") {
             console.log("Chats: user has not started a new chat yet, currentChatId is lojo-chat, so dont do anything");
             return;
         }
@@ -52,8 +51,9 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         
     }, [currentChatId]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        if (currentChatId == "lojo-chat") {
+        if (currentChatId === "lojo-chat") {
             console.log("Chats: user has not started a new chat yet, currentChatId is lojo-chat, so dont do anything");
             return;
         }

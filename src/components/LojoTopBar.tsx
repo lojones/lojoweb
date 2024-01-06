@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { Drawer, Button } from "antd";
 import type { MenuProps } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
-import { Menu } from 'antd';
 import "./LojoTopBar.css";
 import logo from "./logo.svg";
-import { getNewChatId } from "../utils/utils";
-import { getChatHistoryList, getChat, saveChat } from "../utils/utils";
-import { LojoChatMetadata } from "../models/LojoChat";
 
-type MenuItem = Required<MenuProps>['items'][number];
+
+// type MenuItem = Required<MenuProps>['items'][number];
 
 interface LojoTopBarProps {
     children: React.ReactNode;

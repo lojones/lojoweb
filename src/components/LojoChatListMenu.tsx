@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import type { MenuProps } from "antd";
 import { Menu } from 'antd';
 import { LojoChatMetadata } from "../models/LojoChat";
-import { getChatHistoryList, getChat, saveChat } from "../utils/utils";
+import { getChatHistoryList } from "../utils/utils";
 import { getNewChatId } from "../utils/utils";
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -33,10 +33,10 @@ const LojoChatListMenu: React.FC<LojoChatListMenuProps> = ({currentChatId,latest
         } as MenuItem;
     }
 
-    function getChatsListJson(): object {
-        const chatItemsString : string = localStorage.getItem('chatItems') || '{}';
-        return JSON.parse(chatItemsString);
-    }
+    // function getChatsListJson(): object {
+    //     const chatItemsString : string = localStorage.getItem('chatItems') || '{}';
+    //     return JSON.parse(chatItemsString);
+    // }
     
     const onClick: MenuProps['onClick'] = (e) => {
         const chatId = e.key;
@@ -91,6 +91,7 @@ const LojoChatListMenu: React.FC<LojoChatListMenuProps> = ({currentChatId,latest
         
     }, [currentChatId]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         // get the currently selected key from the Menu component
         console.log('LojoChatListMenu - useEffect - latestRemark: ', latestRemark);

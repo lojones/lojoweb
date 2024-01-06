@@ -1,25 +1,24 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Layout, Menu } from 'antd';
-import type { MenuProps } from "antd";
+import { Layout } from 'antd';
+// import type { MenuProps } from "antd";
 import { healthUrl } from "../utils/envvars";
-import UserDetails from "./UserDetails";
 import LojoSideBar from "./LojoSideBar";
 import LojoTopBar from "./LojoTopBar";
 import LojoChatInputBox from "./LojoChatInputBox";
 import LojoChatListMenu from "./LojoChatListMenu";
 import Chats from "./Chat";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
+// type MenuItem = Required<MenuProps>['items'][number];
 
 const Home: React.FC = () => {
 
     console.log('Home: enter component');
 
-    const [collapsed, setCollapsed] = React.useState(false);
+    // const [collapsed, setCollapsed] = React.useState(false);
     const [status, setStatus] = React.useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
@@ -31,10 +30,10 @@ const Home: React.FC = () => {
     const [firstName, setFirstName] = React.useState('');
     const [username, setUsername] = React.useState('');
 
-    const setUserHandler = (firstName: string, username: string) => {
-        setFirstName(firstName);
-        setUsername(username);
-    }
+    // const setUserHandler = (firstName: string, username: string) => {
+    //     setFirstName(firstName);
+    //     setUsername(username);
+    // }
 
     const latestRemarkChangeHandler = (e: string) => {
         setLatestRemark(e);
@@ -46,6 +45,7 @@ const Home: React.FC = () => {
         console.log('Home: currentChatIdChangeHandler - set current chatid: ', e);
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (!token) {
             navigate('/signin');

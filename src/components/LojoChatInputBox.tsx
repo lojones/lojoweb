@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { Button, Col, Row } from 'antd';
-import { LojoChat } from "../models/LojoChat";
 import { getNewChatId } from "../utils/utils";
 
 interface LojoChatInputBoxProps {
