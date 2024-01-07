@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Drawer, Button } from "antd";
-import type { MenuProps } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import "./LojoTopBar.css";
-import logo from "./logo.svg";
+import UserDetails from "./UserDetails"
 
 
 // type MenuItem = Required<MenuProps>['items'][number];
@@ -32,7 +31,7 @@ const LojoTopBar: React.FC<LojoTopBarProps> = ({children}) => {
       >
         {children}
      </Drawer>
-     <a href="/"><img src={logo} className="logo" alt="logo" /></a>     
+      <UserDetails />
     </nav>
   );
 };

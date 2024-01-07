@@ -7,18 +7,19 @@ import './UserDetails.css';
 import { Layout } from 'antd';
 const { Header, Content, Footer } = Layout;
 
-interface UserDetailsProps {
-    firstName: string;
-    username: string;
-    onUserDetailsChange: (firstName: string,username:string) => void;
-}
+// interface UserDetailsProps {
+//     firstName: string;
+//     username: string;
+//     onUserDetailsChange: (firstName: string,username:string) => void;
+// }
 
-const UserDetails: React.FC<UserDetailsProps> = ({firstName,username,onUserDetailsChange}) => {
+const UserDetails: React.FC = () => {
 
     const [errorMessage, setErrorMessage] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
 
     const getUserDetails = async () => {
-        console.log(`First Name: ${firstName}`);
+        // console.log(`First Name: ${firstName}`);
         const token = localStorage.getItem('token');
         const _username = String(localStorage.getItem('username'));
         axios.get(UserDetailsUrl(), {
@@ -31,7 +32,8 @@ const UserDetails: React.FC<UserDetailsProps> = ({firstName,username,onUserDetai
         })
         .then((response) => {
             console.log(response.data);
-            onUserDetailsChange(response.data.firstname,response.data.username);
+            // onUserDetailsChange(response.data.firstname,response.data.username);
+            setFirstName(response.data.firstname);
         })
         .catch((error) => {
             console.log(error);
