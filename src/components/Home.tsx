@@ -10,7 +10,7 @@ import LojoChatInputBox from "./LojoChatInputBox";
 import LojoChatListMenu from "./LojoChatListMenu";
 import Chats from "./Chat";
 
-const { Content, Footer } = Layout;
+const { Header, Content, Footer } = Layout;
 
 // type MenuItem = Required<MenuProps>['items'][number];
 
@@ -66,44 +66,61 @@ const Home: React.FC = () => {
         }
     }, [navigate]);
     return (
-        <div>
-            <LojoTopBar>
+        <Layout>
+            <LojoSideBar>
                 <LojoChatListMenu 
                     currentChatId={currentChatId} 
                     latestRemark={latestRemark}
                     onChatChange={currentChatIdChangeHandler}/>
-            </LojoTopBar>
-            <Layout style={{ minHeight: '100vh' }} >
-                <LojoSideBar>
-                    <LojoChatListMenu 
-                        currentChatId={currentChatId} 
-                        latestRemark={latestRemark}
-                        onChatChange={currentChatIdChangeHandler}/>
-                </LojoSideBar>
-                <Layout>
-                    <Content>
-                        <Chats  
+            </LojoSideBar>
+
+            <Layout style={{ minHeight: '90vh' }} >
+                <Header
+                style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1,
+                    width: '100%',
+                    alignItems: 'center',
+                    padding: 0
+                  }}>
+                    <LojoTopBar>
+                        <LojoChatListMenu 
+                            currentChatId={currentChatId} 
+                            latestRemark={latestRemark}
+                            onChatChange={currentChatIdChangeHandler}/>
+                    </LojoTopBar>
+                </Header>
+                <Content>
+                    <Chats  
+                        firstName={firstName} 
+                        username={username} 
+                        currentChatId={currentChatId}
+                        latestRemark={latestRemark} 
+                    />
+                </Content>
+                <Footer
+                    style={{
+                        position: 'sticky',
+                        bottom: 0,
+                        zIndex: 1,
+                        width: '100%',                        
+                        alignItems: 'center',
+                    }}>
+                    <div>
+                        <LojoChatInputBox 
                             firstName={firstName} 
                             username={username} 
-                            currentChatId={currentChatId}
-                            latestRemark={latestRemark} 
+                            onChatChange={currentChatIdChangeHandler} 
+                            onNewRemarkChange={latestRemarkChangeHandler} 
+                            currentChatId={currentChatId} 
                         />
-                    </Content>
-                    <Footer>
-                        <div>
-                            <LojoChatInputBox 
-                                firstName={firstName} 
-                                username={username} 
-                                onChatChange={currentChatIdChangeHandler} 
-                                onNewRemarkChange={latestRemarkChangeHandler} 
-                                currentChatId={currentChatId} 
-                            />
-                        </div>
-                    </Footer>
-                </Layout>
-            </Layout>
+                    </div>
+                </Footer>
 
-        </div>
+            </Layout>
+            
+        </Layout>
         
        
 

@@ -22,6 +22,15 @@ const LojoSideBar: React.FC<LojoSideBarProps> = ({children}) => {
         theme="light"
         collapsedWidth={0}
         trigger={null}
+        style={{
+            position: 'sticky',
+            top: 0,  // or the height of your header if you have one
+            left: 0,
+            height: '100vh',  // 100% of the viewport height
+            zIndex: 1,
+            overflowY: 'auto'
+            // Add more styles as needed for width, padding, background, etc.
+          }}
         >
             {children}
     </Layout.Sider>
