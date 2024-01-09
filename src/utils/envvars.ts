@@ -26,3 +26,10 @@ export function getRemarkResponseStreamUrl():string {
   return `${apiHost()}/${process.env.REACT_APP_API_PATH_REMARK_RESPONSESTREAM}`;
 }
 
+export function getGoogleOauthClientId():string {
+  return `${process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}`;
+}
+
+export function googleTokenSignginUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_GOOGLE_TOKEN_SIGNIN}`;
+}

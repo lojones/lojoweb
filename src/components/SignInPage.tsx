@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { apiHost, signInUrl } from "../utils/envvars";
 import { Button, Form, Input, Checkbox, Card, Alert, message } from 'antd';
+import GoogleSignIn from "./GoogleSignIn";
+
+
 
 type SignInType = {
     username?: string;
@@ -51,12 +54,21 @@ const SignInPage: React.FC = () => {
         messageApi.error(msg);
     }
 
+    const handleSuccess = (credentialResponse: any) => {
+        // Handle the successful login here
+        console.log('Google login successful', credentialResponse);
+    };
+
+    const handleError = () => {
+        // Handle login errors here
+        console.log('Google login failed');
+    };
+
     return (
         
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10%' }}>
             {contextHolder}
             <Card title="Sign In" style={{ width: '50%' }}>
-        
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
@@ -88,6 +100,10 @@ const SignInPage: React.FC = () => {
                     </Button>
                     </Form.Item>
                 </Form>
+            </Card>
+            <Card title="Sign In with Google" style={{ width: '50%' }}>
+                <GoogleSignIn />
+               
             </Card>
         </div>
     );
