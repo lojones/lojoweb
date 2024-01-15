@@ -8,6 +8,8 @@ import './UserDetails.css';
 import { Layout } from 'antd';
 import { getUserDetails } from "../utils/LojoDataService";
 import { UserDetail } from "../models/User";
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
@@ -17,6 +19,20 @@ const UserDetails: React.FC = () => {
     const [firstName, setFirstName] = React.useState('');
     const [profilePicUrl, setProfilePicUrl] = React.useState('');
     const navigate = useNavigate();
+
+    const userProfileMenu:MenuProps['items'] = [
+        {
+            label: (<span>{firstName}</span>),
+            key: 'userprofile',
+            icon: <Avatar size={40} icon={<img src={profilePicUrl} alt="Profile Picture" />} />,
+            children: [
+                { 
+                    label: 'Log out',
+                    key: 'logout',
+                }
+            ]
+        }
+    ];
 
     useEffect(() => {
             
@@ -38,17 +54,22 @@ const UserDetails: React.FC = () => {
         }
     }, []);
 
-    const handleSignOut = () => {
-        localStorage.removeItem('token');
-        navigate('/signin');
+    const handleSignOut:MenuProps['onClick'] = (e) => {
+        if (e.key === 'logout') {
+            localStorage.removeItem('token');
+            navigate('/signin');
+        }
     }
 
 
     return (
         <div className="navbar-user-detail" >
-            <div>{firstName}</div>
-            <Avatar size={64} icon={<img src={profilePicUrl} alt="Profile Picture" />} />
-            <div><Link to="" onClick={handleSignOut}>Sign out</Link></div>
+            <Menu 
+                className="minwidth200" 
+                items={userProfileMenu} 
+                mode="horizontal" 
+                selectedKeys={['userprofile']} 
+                onClick={handleSignOut} />
         </div>
     );
 };

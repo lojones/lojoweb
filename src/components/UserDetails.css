@@ -2,5 +2,8 @@
     padding: 10px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
-
+.minwidth200 {
+    min-width: 150px;
+}
