@@ -9,9 +9,10 @@ import UserDetails from "./UserDetails"
 
 interface LojoTopBarProps {
     children: React.ReactNode;
+    onUserChange: (firstname: string, username: string) => void;
 }
 
-const LojoTopBar: React.FC<LojoTopBarProps> = ({children}) => {
+const LojoTopBar: React.FC<LojoTopBarProps> = ({children,onUserChange}) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -31,7 +32,8 @@ const LojoTopBar: React.FC<LojoTopBarProps> = ({children}) => {
       >
         {children}
      </Drawer>
-      <UserDetails />
+      <UserDetails 
+        onUserChange={onUserChange}/>
     </nav>
   );
 };

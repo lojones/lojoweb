@@ -13,7 +13,11 @@ import { Menu } from 'antd';
 
 const { Header, Content, Footer } = Layout;
 
-const UserDetails: React.FC = () => {
+interface UserDetailsProps {
+    onUserChange: (firstname: string, username: string) => void;
+}
+
+const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
 
     const [errorMessage, setErrorMessage] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
@@ -45,6 +49,7 @@ const UserDetails: React.FC = () => {
                 console.log(userDetail);
                 setFirstName(userDetail.firstname);
                 setProfilePicUrl(userDetail.profilepicurl);
+                onUserChange(userDetail.firstname, userDetail.username);
             })
             .catch((error) => {
                 console.log(error);

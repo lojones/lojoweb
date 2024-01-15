@@ -30,10 +30,10 @@ const Home: React.FC = () => {
     const [firstName, setFirstName] = React.useState('');
     const [username, setUsername] = React.useState('');
 
-    // const setUserHandler = (firstName: string, username: string) => {
-    //     setFirstName(firstName);
-    //     setUsername(username);
-    // }
+    const setUserHandler = (firstName: string, username: string) => {
+        setFirstName(firstName);
+        setUsername(username);
+    }
 
     const latestRemarkChangeHandler = (e: string) => {
         setLatestRemark(e);
@@ -84,7 +84,8 @@ const Home: React.FC = () => {
                     alignItems: 'center',
                     padding: 0
                   }}>
-                    <LojoTopBar>
+                    <LojoTopBar
+                        onUserChange={setUserHandler}>
                         <LojoChatListMenu 
                             currentChatId={currentChatId} 
                             latestRemark={latestRemark}
