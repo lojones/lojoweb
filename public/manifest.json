@@ -21,11 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "routes": [
-    {
-      "route": "/signin",
-      "rewrite": "/"
-    }
-  ]
+  "background_color": "#ffffff"
 }
