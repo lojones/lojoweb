@@ -33,3 +33,19 @@ export function getGoogleOauthClientId():string {
 export function googleTokenSignginUrl():string {
   return `${apiHost()}/${process.env.REACT_APP_API_PATH_GOOGLE_TOKEN_SIGNIN}`;
 }
+
+export function microsoftTokenSignginUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_MICROSOFT_TOKEN_SIGNIN}`;
+}
+
+export function microsoftOauthTenantId():string {
+  return `${process.env.REACT_APP_MICROSOFT_OAUTH_TENANT_ID}`;
+}
+
+export function microsoftOauthClientId():string {
+  return `${process.env.REACT_APP_MICROSOFT_OAUTH_CLIENT_ID}`;
+}
+
+export function microsoftOauthRediretUri():string {
+  return `${process.env.REACT_APP_MICROSOFT_OAUTH_REDIRECT_URI}`;
+}

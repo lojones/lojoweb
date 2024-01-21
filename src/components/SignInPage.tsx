@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { apiHost, signInUrl } from "../utils/envvars";
 import { Button, Form, Input, Checkbox, Card, Alert, message } from 'antd';
 import GoogleSignIn from "./GoogleSignIn";
+import MicrosoftSignIn from "./MicrosoftSignIn";
 import './SignInPage.css';
 
 
@@ -102,9 +103,14 @@ const SignInPage: React.FC = () => {
                     </Form.Item>
                 </Form>
             </Card>
-            <Card title="Sign In with Google" style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}>
-                <GoogleSignIn />
-               
+            <Card title="Sign In with Providers" style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}>
+                <div className="signin-mid-center">
+                    <GoogleSignIn />
+                </div>
+                <div className="signin-mid-center">
+                    <MicrosoftSignIn />
+                </div>
+                
             </Card>
         </div>
     );
