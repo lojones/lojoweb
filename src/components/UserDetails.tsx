@@ -10,7 +10,6 @@ import { getUserDetails } from "../utils/LojoDataService";
 import { UserDetail } from "../models/User";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { logoutMicrosoft } from "../utils/LojoDataService";
 import { apiHost } from "../utils/envvars";
 import { googleLogout } from "@react-oauth/google";
 
