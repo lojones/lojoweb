@@ -10,6 +10,9 @@ import { getUserDetails } from "../utils/LojoDataService";
 import { UserDetail } from "../models/User";
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import { logoutMicrosoft } from "../utils/LojoDataService";
+import { apiHost } from "../utils/envvars";
+import { googleLogout } from "@react-oauth/google";
 
 const { Header, Content, Footer } = Layout;
 
@@ -61,8 +64,28 @@ const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
 
     const handleSignOut:MenuProps['onClick'] = (e) => {
         if (e.key === 'logout') {
-            localStorage.removeItem('token');
-            navigate('/signin');
+            
+            const token = localStorage.getItem('token');
+            const authtype = localStorage.getItem('authtype');
+            if (authtype === 'microsoft') {
+                const microsoftaccesstoken = localStorage.getItem('microsoftaccesstoken');
+                localStorage.removeItem('token');
+                localStorage.removeItem('authtype');
+                localStorage.removeItem('microsoftaccesstoken');
+                const redirectUrl = `${apiHost()}/signin`;
+                const microsoftLogoutUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = microsoftLogoutUrl;
+            } else if (authtype === 'local') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('authtype');
+                navigate('/signin');
+            } else if (authtype === 'google') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('authtype');
+                googleLogout();
+            }
+
+            
         }
     }
 

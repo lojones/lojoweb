@@ -23,6 +23,7 @@ const GoogleSignIn:React.FC = () => {
       const data = await response.json();
       const token = data.token;
       localStorage.setItem('token', token);
+      localStorage.setItem('authtype', 'google');
       navigate('/');
     } else {
       console.log('Google login failed',response);

@@ -44,6 +44,7 @@ const SignInPage: React.FC = () => {
             const token = data.token;
             localStorage.setItem('token', token);
             localStorage.setItem('username', un);
+            localStorage.setItem('authtype', 'local');
             navigate('/');
         } else {
             const em: string = data.message || 'Sign in failed';

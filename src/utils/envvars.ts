@@ -49,3 +49,7 @@ export function microsoftOauthClientId():string {
 export function microsoftOauthRediretUri():string {
   return `${process.env.REACT_APP_MICROSOFT_OAUTH_REDIRECT_URI}`;
 }
+
+export function microsoftLogout():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_MICROSOFT_LOGOUT}`;
+}
