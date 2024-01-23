@@ -156,26 +156,29 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                 <Space id="mainchatspace" direction="vertical" size="middle" style={{ width: '70%' }}>
                     {
                         myChat.remarks.length === 0 ? (
-                            <Row gutter={16}>
-                                <Col span={8}>
-                                    <Card bordered={false} size="small">
-                                        <p>Describe a specific challenge you faced while implementing cloud platforms and how you overcame it</p>
-                                        <p>What was the most innovative solution you implemented in risk technology, and how did it impact the business</p>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card bordered={false} size="small">
-                                        <p>Can you give an example of how you utilized a specific AI service to solve a complex problem </p>
-                                        <p>Describe some AI research your team did and how its findings were practically applied?</p>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card bordered={false} size="small">
-                                        <p>how do you balance the need for innovation with the management of potential risks, especially in Fintech?</p>
-                                        <p>How have you used technology to improve risk management processes in your previous roles?</p>
-                                    </Card>
-                                </Col>
-                            </Row>
+                            <div>
+                                <div style={{ justifyContent:'center', paddingBottom: '20px'}}>Try asking these questions...</div>
+                                <Row gutter={16}>
+                                    <Col span={8}>
+                                        <Card bordered={false} size="small">
+                                            <p>Describe a specific challenge you faced while implementing cloud platforms and how you overcame it</p>
+                                            <p>What was the most innovative solution you implemented in risk technology, and how did it impact the business</p>
+                                        </Card>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Card bordered={false} size="small">
+                                            <p>Can you give an example of how you utilized a specific AI service to solve a complex problem </p>
+                                            <p>Describe some AI research your team did and how its findings were practically applied?</p>
+                                        </Card>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Card bordered={false} size="small">
+                                            <p>how do you balance the need for innovation with the management of potential risks, especially in Fintech?</p>
+                                            <p>How have you used technology to improve risk management processes in your previous roles?</p>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </div>
                             )
                         : (
                             myChat.remarks.map((remark, index) => (
