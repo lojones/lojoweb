@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Card, Space, Typography } from 'antd';
+import React, { useRef, useEffect } from "react";
+import { Card, Space, Typography, Col, Row, Divider, List } from 'antd';
 import { getChat, saveChat, isValidToken, submitRemark, getRemarkResponseStream } from "../utils/utils";
 import { LojoChat, LojoChatRemarkUniqueId } from "../models/LojoChat";
 import moment from 'moment'
@@ -11,6 +11,7 @@ import remarkGfm from 'remark-gfm'
 import { materialLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 // @ts-expect-error https://github.com/react-syntax-highlighter/react-syntax-highlighter/issues/407
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import './Chat.css'
 
 const { Text } = Typography;
 
@@ -29,7 +30,16 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
     const currentChat : LojoChat = getChat(currentChatId);
     const [myChat, setMyChat] = React.useState(currentChat);
 
+    const scrollRef = useRef<HTMLDivElement>(null);
+
     console.log("Chats, currentChat", myChat);
+
+    const scrolldown = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            console.log("Chats: scrolldown - scrolled down");
+        }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
@@ -46,6 +56,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                 newChat.firstName= firstName;
             }
             setMyChat(newChat);
+            scrolldown();
             console.log("Chats: got this new chat for this chat id>",currentChatId,newChat);
         }
         
@@ -74,6 +85,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
 
         setMyChat(newChat);
         saveChat(newChat);
+        scrolldown();
         console.log("Chats: appended this remark to this chat>",latestRemark)
         getAiResponse(newChat);
 
@@ -113,7 +125,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
 
                         const newRemarks = myChat.remarks ? [...myChat.remarks] : [];
                         responseStringArray.push(responsemessage);
-                        newRemarks.push({remark: responseStringArray.join(""), speaker: "AI", timestamp: new Date(), isAiResponse: true});
+                        newRemarks.push({remark: responseStringArray.join(""), speaker: "Login AI", timestamp: new Date(), isAiResponse: true});
                         const newChatWithAiResponse = {
                             ...myChat,
                             remarks: newRemarks,
@@ -121,6 +133,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                         };
                         setMyChat(newChatWithAiResponse);
                         saveChat(newChatWithAiResponse);
+                        scrolldown();
                         console.log("Chats: appended this remark to this chat>", responsemessage);
                     };
                     responseEventSourceStream.onerror = (event) => {
@@ -138,38 +151,64 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
     }
     
     return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '90%' }}>
-                <Space direction="vertical" size="middle" style={{ width: '70%' }}>
-                    {myChat.remarks.map((remark, index) => (
-                        <div>
-                            <Card key={index} title={remark.speaker} size="small">
-                                <Markdown remarkPlugins={[remarkGfm]}
-                                components={{
-                                            code({ node,  className, children, ...props }) {
-                                            const match = /language-(\w+)/.exec(className || "");
-
-                                            return match ? (
-                                                <SyntaxHighlighter
-                                                style={materialLight}
-                                                PreTag="div"
-                                                language={match[1]}
-                                                children={String(children).replace(/\n$/, "")}
-                                                {...props}
-                                                />
-                                            ) : (
-                                                <code className={className ? className : ""} {...props}>
-                                                {children}
-                                                </code>
-                                            );
-                                            }
-                                        }}>
-                                    {remark.remark}
-                                </Markdown>
-                                <p><Text italic className="smalltext">{moment(remark.timestamp).format("h:mm:ss a")}</Text> </p>
-                            </Card>                            
-                        </div>
-                    ))}
+        <div style={{ marginTop: '50px' }}>
+            <div id="mainchatdiv" ref={scrollRef} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflowY: 'auto', maxHeight: '75vh' }}>
+                <Space id="mainchatspace" direction="vertical" size="middle" style={{ width: '70%' }}>
+                    {
+                        myChat.remarks.length === 0 ? (
+                            <Row gutter={16}>
+                                <Col span={8}>
+                                    <Card bordered={false} size="small">
+                                        <p>Describe a specific challenge you faced while implementing cloud platforms and how you overcame it</p>
+                                        <p>What was the most innovative solution you implemented in risk technology, and how did it impact the business</p>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card bordered={false} size="small">
+                                        <p>Can you give an example of how you utilized a specific AI service to solve a complex problem </p>
+                                        <p>Describe some AI research your team did and how its findings were practically applied?</p>
+                                    </Card>
+                                </Col>
+                                <Col span={8}>
+                                    <Card bordered={false} size="small">
+                                        <p>how do you balance the need for innovation with the management of potential risks, especially in Fintech?</p>
+                                        <p>How have you used technology to improve risk management processes in your previous roles?</p>
+                                    </Card>
+                                </Col>
+                            </Row>
+                            )
+                        : (
+                            myChat.remarks.map((remark, index) => (
+                                <div>
+                                    <Card key={index} title={remark.speaker} size="small">
+                                        <Markdown remarkPlugins={[remarkGfm]}
+                                        components={{
+                                                    code({ node,  className, children, ...props }) {
+                                                        const match = /language-(\w+)/.exec(className || "");
+        
+                                                        return match ? (
+                                                            <SyntaxHighlighter
+                                                            style={materialLight}
+                                                            PreTag="div"
+                                                            language={match[1]}
+                                                            children={String(children).replace(/\n$/, "")}
+                                                            {...props}
+                                                            />
+                                                        ) : (
+                                                            <code className={className ? className : ""} {...props}>
+                                                            {children}
+                                                            </code>
+                                                        );
+                                                    }
+                                                }}>
+                                            {remark.remark}
+                                        </Markdown>
+                                        <p><Text italic className="smalltext">{moment(remark.timestamp).format("h:mm:ss a")}</Text> </p>
+                                    </Card>                            
+                                </div>
+                            ))
+                        )
+                    }
                 </Space>
             </div>
         </div>

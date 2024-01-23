@@ -1,0 +1,6 @@
+.debugclass {
+    background-image: url('https://lojones.github.io/assets/neural-net-1.png'); /* Replace with your image URL */
+    background-size: stretch;  /* This will cover the entire div without stretching the image */
+    background-repeat: repeat; /* This will prevent the image from repeating */
+    background-position: center; /* This centers the image in the div */
+}
