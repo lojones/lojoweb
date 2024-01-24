@@ -158,26 +158,26 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                         myChat.remarks.length === 0 ? (
                             <div>
                                 <div style={{ justifyContent:'center', paddingBottom: '20px'}}>Try asking these questions...</div>
-                                <Row gutter={16}>
-                                    <Col span={8}>
-                                        <Card bordered={false} size="small">
-                                            <p>Describe a specific challenge you faced while implementing cloud platforms and how you overcame it</p>
-                                            <p>What was the most innovative solution you implemented in risk technology, and how did it impact the business</p>
-                                        </Card>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Card bordered={false} size="small">
-                                            <p>Can you give an example of how you utilized a specific AI service to solve a complex problem </p>
-                                            <p>Describe some AI research your team did and how its findings were practically applied?</p>
-                                        </Card>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Card bordered={false} size="small">
-                                            <p>how do you balance the need for innovation with the management of potential risks, especially in Fintech?</p>
-                                            <p>How have you used technology to improve risk management processes in your previous roles?</p>
-                                        </Card>
-                                    </Col>
-                                </Row>
+                                <div id="suggestioncardcontainer" >
+                                    <div className="suggestionCard">
+                                        <p>What challenges have you faced while implementing cloud platforms?</p>
+                                    </div>
+                                    <div className="suggestionCard">
+                                        <p>What is your current role and what do you do in it?</p>
+                                    </div>
+                                    <div className="suggestionCard">
+                                        <p>what kind of ai experimentation have you done?</p>
+                                    </div>
+                                    <div className="suggestionCard">
+                                        <p>what notable accomplishments do you have from Risk team?</p>
+                                    </div>
+                                    <div className="suggestionCard">
+                                        <p>how do you balance innovation and risk?</p>
+                                    </div>
+                                    <div className="suggestionCard">
+                                        <p>how have you built high performing teams?</p>
+                                    </div>
+                                </div>
                             </div>
                             )
                         : (

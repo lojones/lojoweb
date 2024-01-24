@@ -30,7 +30,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
         {
             label: (<span>{firstName}</span>),
             key: 'userprofile',
-            icon: <Avatar size={40} icon={<img src={profilePicUrl} alt="Profile Picture" />} />,
+            icon: <Avatar style={{ verticalAlign: 'middle'}} size={40} icon={<img src={profilePicUrl} alt="Profile Picture" />} />,
             children: [
                 { 
                     label: 'Log out',

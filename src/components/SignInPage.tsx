@@ -4,14 +4,23 @@ import { apiHost, signInUrl } from "../utils/envvars";
 import { Button, Form, Input, Checkbox, Card, Alert, message } from 'antd';
 import GoogleSignIn from "./GoogleSignIn";
 import MicrosoftSignIn from "./MicrosoftSignIn";
+import LojoLogo  from "./LojoLogo";
+import type { CollapseProps } from 'antd';
+import { Collapse, Carousel } from 'antd';
 import './SignInPage.css';
-
-
 
 type SignInType = {
     username?: string;
     password?: string;
     remember?: string;
+};
+
+const contentStyle: React.CSSProperties = {
+    height: '160px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
   };
 
 const SignInPage: React.FC = () => {
@@ -19,6 +28,17 @@ const SignInPage: React.FC = () => {
     const [errorMessage, setErrorMessage] = React.useState('');
     const navigate = useNavigate();
     const apiUrlSignIn = signInUrl()
+
+    const getRandomNumber = () => {
+        return Math.floor(Math.random() * 8) + 1;
+    };
+
+    const generateFilename = () => {
+        const randomNumber = getRandomNumber();
+        return `genericprofilepic${randomNumber}.png`;
+    };
+
+    const logofile = generateFilename();
 
     const handleSignIn = async (e: SignInType) => {
         console.log(`Username: ${e.username}`);
@@ -67,52 +87,82 @@ const SignInPage: React.FC = () => {
         console.log('Google login failed');
     };
 
+    const items: CollapseProps['items'] = [
+        {
+            key: '1',
+            label: 'Sign In with Providers',
+            children: <p>
+                <Card style={{ width: '50%', justifyContent: 'center', alignItems: 'center', display: 'contents' }}>
+                    <div className="signin-mid-center">
+                        <GoogleSignIn />
+                    </div>
+                    <div className="signin-mid-center">
+                        <MicrosoftSignIn />
+                    </div>
+                </Card>
+            </p>
+        },
+        {
+          key: '2',
+          label: 'Local Sign In',
+          children: <p>
+            <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                style={{ maxWidth: 600 }}
+                initialValues={{ remember: true }}
+                onFinish={handleSignIn}
+                autoComplete="off"
+            >
+                <Form.Item<SignInType>
+                    label="Username"
+                    name="username"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                >
+                    <Input />
+                </Form.Item>
+    
+                <Form.Item<SignInType>
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password />
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+                </Form.Item>
+            </Form>
+          </p>
+        }
+    ];
+
     return (
         
         <div id="main-signin-container" >
-            {contextHolder}
-            <Card title="Sign In" style={{ width: '50%' }}>
-                <Form
-                    name="basic"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={handleSignIn}
-                    autoComplete="off"
-                >
-                    <Form.Item<SignInType>
-                        label="Username"
-                        name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item<SignInType>
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    </Form.Item>
-                </Form>
-            </Card>
-            <Card title="Sign In with Providers" style={{ width: '50%', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="signin-mid-center">
-                    <GoogleSignIn />
+            <LojoLogo />
+            
+            <Carousel autoplay>
+                <div>
+                <h3 style={contentStyle}>1</h3>
                 </div>
-                <div className="signin-mid-center">
-                    <MicrosoftSignIn />
+                <div>
+                <h3 style={contentStyle}>2</h3>
                 </div>
-                
-            </Card>
+                <div>
+                <h3 style={contentStyle}>3</h3>
+                </div>
+                <div>
+                <h3 style={contentStyle}>4</h3>
+                </div>
+            </Carousel>
+            
+            
+            <Collapse items={items} bordered defaultActiveKey={['1']} style={{ width: '50%' }}/>
+            
         </div>
     );
 };

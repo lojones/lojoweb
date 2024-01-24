@@ -124,6 +124,7 @@ const LojoChatListMenu: React.FC<LojoChatListMenuProps> = ({currentChatId,latest
             items={navbarChatsList}
             defaultOpenKeys={['chats']}
             selectedKeys={[selectedChat]}
+            style={{ fontSize: 'small'}}
         />
 
     );
