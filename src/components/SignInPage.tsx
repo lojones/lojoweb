@@ -145,21 +145,6 @@ const SignInPage: React.FC = () => {
         <div id="main-signin-container" >
             <LojoLogo />
             
-            <Carousel autoplay>
-                <div>
-                <h3 style={contentStyle}>1</h3>
-                </div>
-                <div>
-                <h3 style={contentStyle}>2</h3>
-                </div>
-                <div>
-                <h3 style={contentStyle}>3</h3>
-                </div>
-                <div>
-                <h3 style={contentStyle}>4</h3>
-                </div>
-            </Carousel>
-            
             
             <Collapse items={items} bordered defaultActiveKey={['1']} style={{ width: '50%' }}/>
             
