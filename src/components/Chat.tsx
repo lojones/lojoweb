@@ -11,6 +11,8 @@ import remarkGfm from 'remark-gfm'
 import { materialLight } from "react-syntax-highlighter/dist/cjs/styles/prism";
 // @ts-expect-error https://github.com/react-syntax-highlighter/react-syntax-highlighter/issues/407
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import  mermaid  from 'mermaid'
+
 import './Chat.css'
 
 const { Text } = Typography;
@@ -22,6 +24,43 @@ interface ChatProps {
     latestRemark: string;
 }
 
+interface IMermaidChart {
+    code: string;
+  }
+
+const MermaidChart: React.FC<IMermaidChart> = ({ code }) => {
+    const ref = useRef<HTMLDivElement>(null);
+
+    const [mermaidDiagram, setMermaidDiagram] = React.useState('');
+
+    useEffect(() => {
+        mermaid.initialize({ startOnLoad: false });
+    }, []);
+  
+    useEffect(() => {
+        const render = async () => {
+            
+            try {
+                if (await mermaid.parse(code, {suppressErrors: true})) {
+                    const { svg } = await mermaid.render('mermaidChart', code);
+                    setMermaidDiagram(svg);
+                } else {
+                    console.log("MermaidChart: could not parse diagram ");
+                }
+                
+                
+            } catch (error) {
+                // setMermaidDiagram(code);
+                console.log("MermaidChart: did not render diagram ", error);
+            }
+            
+        }
+      render();
+    }, [code]);
+  
+    return <div dangerouslySetInnerHTML={{ __html: mermaidDiagram ?? code }} />;
+  };
+
 const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRemark}) => {
 
     console.log('Chats: enter component');
@@ -31,6 +70,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
     const [myChat, setMyChat] = React.useState(currentChat);
 
     const scrollRef = useRef<HTMLDivElement>(null);
+    const mermaidRef = useRef(null);
 
     console.log("Chats, currentChat", myChat);
 
@@ -54,6 +94,13 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
             if (!newChat.userId || newChat.userId === ''){
                 newChat.userId = username;
                 newChat.firstName= firstName;
+            }
+            if (!newChat.remarks || newChat.remarks.length === 0) {
+                const remark = [];
+                const introduction = 'Hi I\'m Login AI, an AI avatar of [Login Jones](https://lojones.github.io/about/).  Would you like me to tell you about myself?';
+                remark.push({remark: introduction, speaker: "Login AI", timestamp: new Date(), isAiResponse: true});
+                newChat.remarks = remark;
+                
             }
             setMyChat(newChat);
             scrolldown();
@@ -100,9 +147,13 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         else {
             const submitResponse = submitRemark(myChat);
             submitResponse.then((response) => {
+                // check if the response is a 403 and if it is then redirect to /signin
                 if (response == null) {
                     console.log("error trying to submit the chat to AI");
+                } else if (response.responseStatusCode === 403) {
+                    navigate('/signin');
                 } else {
+                    
                     const responseRemarkUid : LojoChatRemarkUniqueId = response;
                     const remarkUid = responseRemarkUid.remarkUid;
                     const responseEventSourceStream = getRemarkResponseStream(remarkUid);
@@ -184,24 +235,33 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                             myChat.remarks.map((remark, index) => (
                                 <div>
                                     <Card key={index} title={remark.speaker} size="small">
-                                        <Markdown remarkPlugins={[remarkGfm]}
+                                        <Markdown remarkPlugins={[remarkGfm]} 
                                         components={{
                                                     code({ node,  className, children, ...props }) {
                                                         const match = /language-(\w+)/.exec(className || "");
-        
-                                                        return match ? (
-                                                            <SyntaxHighlighter
-                                                            style={materialLight}
-                                                            PreTag="div"
-                                                            language={match[1]}
-                                                            children={String(children).replace(/\n$/, "")}
-                                                            {...props}
-                                                            />
-                                                        ) : (
-                                                            <code className={className ? className : ""} {...props}>
-                                                            {children}
-                                                            </code>
-                                                        );
+                                                        const text = String(children);
+
+                                                        if (match) {
+                                                            if (className === 'language-mermaid') {
+                                                                
+                                                                return <MermaidChart code={text} />;
+                                                            } else {
+                                                                return <SyntaxHighlighter
+                                                                    style={materialLight}
+                                                                    PreTag="div"
+                                                                    language={match[1]}
+                                                                    children={String(children).replace(/\n$/, "")}
+                                                                    {...props}
+                                                                />
+                                                            }
+                                                            
+                                                        } else {
+                                                            return  <code className={className ? className : ""} {...props}>
+                                                                        {children}
+                                                                    </code>;
+                                                        }
+                                                        
+                                                        
                                                     }
                                                 }}>
                                             {remark.remark}

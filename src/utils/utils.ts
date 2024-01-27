@@ -76,12 +76,15 @@ export async function submitRemark(chat: LojoChat) : Promise<LojoChatRemarkUniqu
       },
       body: JSON.stringify(chat)
     });
-    const data = await response.json();
+    
     if (response.ok) {
+      const data = await response.json();
       console.log(data)
       return data;
     } else {
-      return null;
+      console.log("utils: submitRemark: response status code: ", response.status);
+      const errResp : LojoChatRemarkUniqueId = { remarkUid: "", responseStatusCode: response.status };
+      return errResp;
     }
 
   }
