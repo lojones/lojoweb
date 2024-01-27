@@ -1,4 +1,6 @@
 .lojosidebar {
     height: 1000px;
     margin-right: 24px;
+    max-width: 20%;
+    min-width: 20%;
 }
