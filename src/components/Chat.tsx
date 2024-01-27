@@ -173,7 +173,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                         // console.log(responsemessage);
                         if (responsemessage === `done ${remarkUid}`) {
                             responseEventSourceStream.close();
-                            storeChat(token, myChat);
+                            storeChat(token, getChat(currentChatId));
                             return;
                         }
 
