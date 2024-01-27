@@ -128,7 +128,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         const newChat = {
             ...myChat,
             remarks: newRemarks,
-            summary: latestRemark.substring(0, 25) + "..",
+            summary: latestRemark.substring(0, 35) + "..",
           };
 
         setMyChat(newChat);

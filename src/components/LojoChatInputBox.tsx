@@ -48,14 +48,14 @@ const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChatId,firstNa
                         }
                     />
                 </Col>
-                <Col style={{ width: '10%', paddingLeft: '5px' }}>
+                <Col style={{ width: '10%' }}>
                     <Button 
                         id="newChatBtn" 
                         type="primary" 
                         shape="circle" 
                         icon={<SendOutlined />} 
                         onClick={()=> onSendRemarkClick()}
-                        
+                        style={{ margin: '10px' }}
                     />
                 </Col>
             </Row>
