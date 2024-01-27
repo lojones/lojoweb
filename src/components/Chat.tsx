@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { Card, Space, Typography, Col, Row, Divider, List } from 'antd';
 import { getChat, saveChat, isValidToken, submitRemark, getRemarkResponseStream } from "../utils/utils";
 import { LojoChat, LojoChatRemarkUniqueId } from "../models/LojoChat";
+import { storeChat } from "../utils/LojoDataService";
 import moment from 'moment'
 import { useNavigate } from "react-router-dom";
 import Markdown from 'react-markdown'
@@ -94,7 +95,8 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
 
     const getAiResponse = (myChat: LojoChat) => {
         console.log("Chats: getAiResponse - start");
-        if (!isValidToken()) {
+        const token = localStorage.getItem('token');
+        if (!token || !isValidToken()) {
             navigate('/signin');
         }
         else {
@@ -120,6 +122,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                         // console.log(responsemessage);
                         if (responsemessage === `done ${remarkUid}`) {
                             responseEventSourceStream.close();
+                            storeChat(token, myChat);
                             return;
                         }
 
