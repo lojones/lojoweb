@@ -1,9 +1,20 @@
+
+.minwidth200 {
+    min-width: 150px;
+}
 .navbar-user-detail {
     padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
-.minwidth200 {
-    min-width: 150px;
+
+@media (min-width: 375px) {
+    .navbar-user-detail {
+        float:right;
+        padding-top: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
 }

@@ -82,7 +82,8 @@ const Home: React.FC = () => {
                     zIndex: 1,
                     width: '100%',
                     alignItems: 'center',
-                    padding: 0
+                    padding: 0,
+                    backgroundColor: '#FFFFFF'
                   }}>
                     <LojoTopBar
                         onUserChange={setUserHandler}>

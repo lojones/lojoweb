@@ -82,6 +82,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('authtype');
                 googleLogout();
+                navigate('/signin');
             }
 
             

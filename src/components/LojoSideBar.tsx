@@ -20,6 +20,7 @@ const LojoSideBar: React.FC<LojoSideBarProps> = ({children}) => {
         className="lojosidebar"
         breakpoint={"lg"}
         theme="light"
+        width={300}
         collapsedWidth={0}
         trigger={null}
         style={{
