@@ -1,0 +1,10 @@
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+body {
+    font-family: Lato;
+    color: #333;
+    padding: 10px;
+}
