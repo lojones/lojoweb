@@ -1,9 +1,16 @@
 #main-signin-container {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+@media (min-width: 992px) {
+    #main-signin-container {
+        width: 50%;
+    }
 }
 
 .signin-mid-center {
@@ -14,10 +21,64 @@
     max-width: 100%;
 }
 
-.carouselstyle {
-    height: 160px;
-    color: #fff;
-    line-height: 160px;
+.innertext {
     text-align: center;
-    background: #364d79;
+    padding: 50px;
+}
+
+.innertext ol {
+    text-align: left;
+    font-size: smaller;
+    padding: 20px;
+}
+
+.innertext li {
+    padding: 10px;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+header h1 {
+    margin: 0;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.how-to-use, .sample-questions {
+    background-color: #e9ecef;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+}
+.how-to-use h2, .sample-questions h2 {
+    color: #333;
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    bottom: 0;
+    width: 100%;
 }

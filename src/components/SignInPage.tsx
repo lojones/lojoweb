@@ -143,10 +143,25 @@ const SignInPage: React.FC = () => {
     return (
         
         <div id="main-signin-container" >
-            <LojoLogo />
+            <Card bordered style={{ justifyContent: 'center', alignItems: 'center', display: 'block', fontSize: 'small', margin: '10px', color: '#5b5b5b' }}>
+                <div>
+                    <h1 style={{ textAlign: 'center'}}>Welcome to Login Jones Chat</h1>
+                    <p>Chat with <strong>Login AI</strong> - an avatar of IT Professional Login Jones</p>
+                    <p>Engaging with the AI avatar of Login Jones is simple.</p>
+                    <ol>
+                        <li>Sign in using your Google or Microsoft account. Your profile information is only used to create a unique account on Login Jones Chat. <a href="privacy.html" target="_blank">Privacy Policy</a>.</li>
+                        <li>Once logged in, start chatting with <strong>Login AI</strong>! </li>
+                    </ol>
+                    <small><a href="home.html" target="_blank">More details</a></small>
+                    
+                    <p>Sign In Below!</p>
+                </div>
+            </Card>
             
             
-            <Collapse items={items} bordered defaultActiveKey={['1']} style={{ width: '50%' }}/>
+            
+            
+            <Collapse items={items} bordered defaultActiveKey={['1']} style={{margin: '10px'}}/>
             
         </div>
     );
