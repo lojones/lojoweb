@@ -205,7 +205,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
     }
     
     return (
-        <div style={{ marginTop: '50px' }}>
+        <div style={{ marginTop: '20px' }}>
             <div id="mainchatdiv" ref={scrollRef} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflowY: 'auto', maxHeight: '75vh' }}>
                 <Space id="mainchatspace" direction="vertical" size="middle" style={{ width: '70%' }}>
                     {
