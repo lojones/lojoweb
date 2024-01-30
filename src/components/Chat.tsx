@@ -258,6 +258,9 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                                     <div className="suggestionCard">
                                         <p>Tell me about your written, video and art publications?</p>
                                     </div>
+                                    <div className="suggestionCard">
+                                        <p>What is your purpose?</p>
+                                    </div>
                                 </div>
                             </div>
                             )
