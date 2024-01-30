@@ -36,7 +36,8 @@ const LojoChatInputBox: React.FC<LojoChatInputBoxProps>= ({currentChatId,firstNa
                 <Col style={{ width: '90%' }}>
                     <Input.TextArea 
                         autoSize={{ minRows:2,maxRows:5 }} 
-                        placeholder="Question"
+                        placeholder="Question for Login AI"
+                        style={{ fontSize: '16px' }}
                         value={remark}
                         onChange={e => setRemark(e.target.value)}
                         onKeyDown={e => {

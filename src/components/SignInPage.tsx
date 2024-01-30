@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { apiHost, signInUrl } from "../utils/envvars";
 import { Button, Form, Input, Checkbox, Card, Alert, message } from 'antd';
 import GoogleSignIn from "./GoogleSignIn";
-import MicrosoftSignIn from "./MicrosoftSignIn";
-import LojoLogo  from "./LojoLogo";
+import LinkedInSignIn from "./LinkedInSignin";
 import type { CollapseProps } from 'antd';
 import { Collapse, Carousel } from 'antd';
 import './SignInPage.css';
@@ -97,7 +96,7 @@ const SignInPage: React.FC = () => {
                         <GoogleSignIn />
                     </div>
                     <div className="signin-mid-center">
-                        <MicrosoftSignIn />
+                        <LinkedInSignIn />
                     </div>
                 </Card>
             </p>
