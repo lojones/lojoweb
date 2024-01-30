@@ -96,6 +96,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
 
     const currentChat : LojoChat = getChat(currentChatId);
     const [myChat, setMyChat] = React.useState(currentChat);
+    const [showLoading, setShowLoading] = React.useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const mermaidRef = useRef(null);
@@ -175,11 +176,13 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
         }
         else {
             const submitResponse = submitRemark(myChat);
+            setShowLoading(true);
             submitResponse.then((response) => {
                 // check if the response is a 403 and if it is then redirect to /signin
                 if (response == null) {
                     console.log("error trying to submit the chat to AI");
                 } else if (response.responseStatusCode === 403) {
+                    setShowLoading(false);
                     navigate('/signin');
                 } else {
                     
@@ -188,6 +191,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                     const responseEventSourceStream = getRemarkResponseStream(remarkUid);
                     const responseStringArray:string[] = [];
                     responseEventSourceStream.onmessage = (event) => {
+                        setShowLoading(false);
                         const responseobj = event.data;
                         console.log("Chats: responseobj is ",responseobj);
                         const responsejson = JSON.parse(responseobj);
@@ -218,6 +222,7 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                         console.log("Chats: appended this remark to this chat>", responsemessage);
                     };
                     responseEventSourceStream.onerror = (event) => {
+                        setShowLoading(false);
                         console.log("error trying to get response from AI",event);
                     };
                     responseEventSourceStream.onopen = (event) => {
@@ -303,6 +308,13 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                                     </Card>                            
                                 </div>
                             ))
+                        )
+                    }
+                    {
+                        showLoading ? (
+                            <Card loading={showLoading} size="small"></Card>
+                        ) : (
+                            <div></div>
                         )
                     }
                 </Space>
