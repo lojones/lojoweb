@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Card, Space, Typography, Col, Row, Divider, List } from 'antd';
 import { getChat, saveChat, isValidToken, submitRemark, getRemarkResponseStream } from "../utils/utils";
 import { LojoChat, LojoChatRemarkUniqueId } from "../models/LojoChat";
@@ -24,6 +24,33 @@ interface ChatProps {
     username: string;
     latestRemark: string;
 }
+
+const DelayedComponent: React.FC<IMermaidChart> = ({ code }) => {
+    const [visible, setVisible] = useState(false);
+  
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setVisible(true);
+      }, 2000);
+  
+      return () => clearTimeout(timer); // This will clear the timer if the component is unmounted before 5 seconds
+    }, []);
+  
+    return (
+        <div>
+            { visible ?
+            ( 
+                <div dangerouslySetInnerHTML={{ __html:  code }} /> 
+            ) : (
+                <div>Rendering Diagram...</div>
+            )
+ }
+        </div>
+      
+        
+    );
+};
+  
 
 interface IMermaidChart {
     code: string;
@@ -56,10 +83,10 @@ const MermaidChart: React.FC<IMermaidChart> = ({ code }) => {
             }
             
         }
-      render();
+        render();
     }, [code]);
   
-    return <div dangerouslySetInnerHTML={{ __html: mermaidDiagram ?? code }} />;
+    return <DelayedComponent code={mermaidDiagram} />;
   };
 
 const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRemark}) => {
