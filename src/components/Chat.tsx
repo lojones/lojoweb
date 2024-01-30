@@ -214,22 +214,22 @@ const Chats: React.FC<ChatProps>= ({currentChatId,firstName, username,latestRema
                                 <div style={{ justifyContent:'center', paddingBottom: '20px'}}>Try asking these questions...</div>
                                 <div id="suggestioncardcontainer" >
                                     <div className="suggestionCard">
-                                        <p>What challenges have you faced while implementing cloud platforms?</p>
+                                        <p>What is your app architecture?</p>
                                     </div>
                                     <div className="suggestionCard">
-                                        <p>What is your current role and what do you do in it?</p>
+                                        <p>Tell me about your work history</p>
                                     </div>
                                     <div className="suggestionCard">
-                                        <p>what kind of ai experimentation have you done?</p>
+                                        <p>What gen AI work have you done?</p>
                                     </div>
                                     <div className="suggestionCard">
-                                        <p>what notable accomplishments do you have from Risk team?</p>
+                                        <p>How do you stay current with tech?</p>
                                     </div>
                                     <div className="suggestionCard">
-                                        <p>how do you balance innovation and risk?</p>
+                                        <p>Your thoughts on work life balance?</p>
                                     </div>
                                     <div className="suggestionCard">
-                                        <p>how have you built high performing teams?</p>
+                                        <p>Tell me about your written, video and art publications?</p>
                                     </div>
                                 </div>
                             </div>
