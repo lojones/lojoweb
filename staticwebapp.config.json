@@ -3,6 +3,10 @@
       {
         "route": "/signin",
         "rewrite": "/"
+      },
+      {
+        "route": "/linkedin",
+        "rewrite": "/"
       }
     ]
   }
