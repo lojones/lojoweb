@@ -74,7 +74,7 @@ const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
                 const redirectUrl = `${apiHost()}/signin`;
                 const microsoftLogoutUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(redirectUrl)}`;
                 window.location.href = microsoftLogoutUrl;
-            } else if (authtype === 'local') {
+            } else if (authtype === 'local' ) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('authtype');
                 navigate('/signin');
@@ -82,6 +82,12 @@ const UserDetails: React.FC<UserDetailsProps> = ({onUserChange}) => {
                 localStorage.removeItem('token');
                 localStorage.removeItem('authtype');
                 googleLogout();
+                navigate('/signin');
+            } else if (authtype === 'linkedin') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('authtype');
+                const linkedinLogout = `https://linkedin.com/m/logout`;
+                window.open(linkedinLogout, '_blank');
                 navigate('/signin');
             }
 

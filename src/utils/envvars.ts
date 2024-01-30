@@ -49,3 +49,9 @@ export function microsoftOauthClientId():string {
 export function microsoftOauthRediretUri():string {
   return `${process.env.REACT_APP_MICROSOFT_OAUTH_REDIRECT_URI}`;
 }
+export function linkedInTokenSignginUrl():string {
+  return `${apiHost()}/${process.env.REACT_APP_API_PATH_LINKEDIN_TOKEN_SIGNIN}`;
+}
+export function linkedInOauthClientId():string {
+  return `${process.env.REACT_APP_LINKEDIN_OAUTH_CLIENT_ID}`;
+}
