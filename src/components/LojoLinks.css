@@ -1,0 +1,22 @@
+.lojo-links {
+  margin: 0 20px;
+  position: absolute;  /* Take it out of the flex flow */
+  left: 35%;  /* Center horizontally */
+  transform: translateX(-50%);  /* Offset by half its width */
+}
+
+.social-icons-container {
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #4096ff;
+  display: flex;
+  gap: 8px;
+  line-height: normal;
+}
+
+.link-icon {
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+}

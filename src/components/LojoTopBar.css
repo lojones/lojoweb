@@ -1,7 +1,10 @@
 .lojotopbar {
     background-color: white;
     padding-left: 2rem;
-  }
+    display: flex;
+    align-items: center;
+    height: 64px;
+}
   
 @media (min-width: 992px) {
     .lojotopbarmenu {
@@ -12,4 +15,11 @@
 .logo {
     height: 32px;
     margin-left: 1rem;
+}
+
+
+
+/* Keep UserDetails on the right */
+.lojotopbar > :last-child {
+    margin-left: auto;
 }

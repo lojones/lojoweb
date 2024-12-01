@@ -3,6 +3,7 @@ import { Drawer, Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import "./LojoTopBar.css";
 import UserDetails from "./UserDetails"
+import LojoLinks from "./LojoLinks"
 
 
 // type MenuItem = Required<MenuProps>['items'][number];
@@ -32,6 +33,7 @@ const LojoTopBar: React.FC<LojoTopBarProps> = ({children,onUserChange}) => {
       >
         {children}
      </Drawer>
+      <LojoLinks />
       <UserDetails 
         onUserChange={onUserChange}/>
     </nav>
