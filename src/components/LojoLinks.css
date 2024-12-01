@@ -7,12 +7,26 @@
 
 .social-icons-container {
   background-color: white;
-  padding: 8px 12px;
+  padding: 5px;
   border-radius: 12px;
   border: 1px solid #4096ff;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
   line-height: normal;
+}
+
+.container-label {
+  font-size: 5px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.icons-row {
+  display: flex;
+  gap: 8px;
 }
 
 .link-icon {
